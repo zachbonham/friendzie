@@ -9,7 +9,7 @@ public record CreateNewGameComand(string OwnerName) : IRequest<CreateNewGameResu
 public record CreateNewGameResult(string InvitationCode, string InviteUrl)  { }
 
 
-public record CreateNewGameResponse(string InvitationCode) { };
+public record CreateNewGameResponse(string InviteCode, string InviteUrl) { };
 
 
 
@@ -35,7 +35,7 @@ public static class GameEndpoints
     public static async Task<IResult> CreateNewGame(NewGameRequest request, ISender sender)
     {
         var result = await sender.Send(new CreateNewGameComand(request.OwnerName));
-        var response = new CreateNewGameResponse(result.InvitationCode);
+        var response = new CreateNewGameResponse(result.InvitationCode, result.InviteUrl);
         return Results.Ok(response);
 
     }
