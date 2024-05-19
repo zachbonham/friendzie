@@ -1,0 +1,14 @@
+@FriendZie.Api_HostAddress = http://localhost:7162
+
+GET {{FriendZie.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST https://localhost:7162/games
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ownerName": "zach"
+}
