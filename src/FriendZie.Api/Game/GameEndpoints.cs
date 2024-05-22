@@ -25,6 +25,14 @@ public static class GameEndpoints
                  Summary = "Finds an existing Friendzie game by its unique id.",
                  Description = "This is a description"
              });
+
+        app.MapPost("players", AddPlayer)
+            .WithName("AddPlayer")
+            .Produces<AddPlayerResponse>()
+            .WithOpenApi(operation => new(operation)
+            {
+                Summary = "Adds a player to an existing session using invitationCode."
+            });
     }
 
 
@@ -41,6 +49,14 @@ public static class GameEndpoints
     {
         var result = await sender.Send(new GetGameCommand(id));
         var response = new GetGameResponse(result.Session);
+        return Results.Ok(response);
+    }
+
+    public static async Task<IResult> AddPlayer(AddPlayerRequest request, ISender sender)
+    {
+        var result = await sender.Send(new AddPlayerCommand(InvitationCode: request.InvitationCode, PlayerName: request.Name));
+        var response = new AddPlayerResponse(result.Session);
+
         return Results.Ok(response);
     }
 
