@@ -1,26 +1,24 @@
-﻿using FriendZie.Domain.Player;
+﻿using FluentResults;
+using FriendZie.Domain.Player;
 using FriendZie.Domain.Session;
 using MediatR;
 
 namespace FriendZie.Api.Game.CreateGame;
 
 
-public class CreateGameRequestHandler(IGameRepository db) : IRequestHandler<CreateGameRequest, CreateGameResponse>
+public class CreateGameRequestHandler(IGameRepository db) : IRequestHandler<CreateGameRequest, Result<SessionType>>
 {
     private IGameRepository Db = db;
 
-    public async Task<CreateGameResponse> Handle(CreateGameRequest request, CancellationToken cancellationToken)
+    public async Task<Result<SessionType>> Handle(CreateGameRequest request, CancellationToken cancellationToken)
     {
-        await Task.Delay(100, cancellationToken);
 
         var session = Session.Create(new PlayerType(Name: request.OwnerName));
 
         // if(session.IsFailed)
 
-        await Db.SaveSession(session.Value);
+        session = await Db.SaveSession(session.Value);
 
-
-
-        return new CreateGameResponse(session.Value);
+        return session;
     }
 }

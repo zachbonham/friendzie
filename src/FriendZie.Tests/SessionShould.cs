@@ -1,4 +1,7 @@
 ﻿
+using FriendZie.Domain.Player;
+using FriendZie.Domain.Session;
+
 namespace FriendZie.Tests;
 
 

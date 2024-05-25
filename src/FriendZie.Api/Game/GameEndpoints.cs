@@ -43,21 +43,25 @@ public static class GameEndpoints
     {
         var response = await sender.Send(request);
 
-        return Results.Ok(response);
+        return Results.Ok(new CreateGameResponse(response.Value));
 
     }
 
     public static async Task<IResult> GetGame(Guid id, ISender sender)
     {
         var response = await sender.Send(new GetGameRequest(id));
-        return Results.Ok(response);
+        if (response.IsFailed) return Results.NotFound();
+
+        return Results.Ok(new GetGameResponse(response.Value));
     }
 
     public static async Task<IResult> AddPlayer(AddPlayerRequest request, ISender sender)
     {
         var response = await sender.Send(request);
 
-        return Results.Ok(response);
+        if (response.IsFailed) return Results.NotFound();
+
+        return Results.Ok(new AddPlayerResponse(response.Value));
     }
 
 }

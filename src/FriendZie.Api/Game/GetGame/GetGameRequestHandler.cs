@@ -1,20 +1,17 @@
-﻿using MediatR;
+﻿using FluentResults;
+using FriendZie.Domain.Session;
+using MediatR;
 
 namespace FriendZie.Api.Game.GetGame;
 
-public class GetGameRequestHandler(IGameRepository db) : IRequestHandler<GetGameRequest, GetGameResponse>
+public class GetGameRequestHandler(IGameRepository db) : IRequestHandler<GetGameRequest, Result<SessionType>>
 {
-    private IGameRepository Db = db;
+    private readonly IGameRepository Db = db;
 
-    public async Task<GetGameResponse> Handle(GetGameRequest request, CancellationToken cancellationToken)
+    public async Task<Result<SessionType>> Handle(GetGameRequest request, CancellationToken cancellationToken)
     {
-
-        // if(session.IsFailed)
-
         var session = await Db.GetSession(request.Id);
 
-
-
-        return new GetGameResponse(session);
+        return session;
     }
 }

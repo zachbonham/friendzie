@@ -35,4 +35,4 @@ app.UseHttpsRedirection();
 
 app.MapGameEndpoints();
 
-app.Run();
+await app.RunAsync();

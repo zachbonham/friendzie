@@ -1,4 +1,6 @@
 ﻿
+using FriendZie.Domain.Player;
+
 namespace FriendZie.Tests
 {
     public class PlayerShould
