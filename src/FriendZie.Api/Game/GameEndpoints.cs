@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using FriendZie.Api.Game.AddPlayer;
+using FriendZie.Api.Game.CreateGame;
+using FriendZie.Api.Game.GetGame;
+using MediatR;
 
 namespace FriendZie.Api.Game;
 
@@ -10,7 +13,7 @@ public static class GameEndpoints
         app.MapPost("games", CreateNewGame)
 
             .WithName("CreateNewGame")
-            .Produces<CreateNewGameResponse>()
+            .Produces<CreateGameResponse>()
             .WithOpenApi(operation => new(operation)
             {
                 Summary = "Creates a new friendzie game",
@@ -36,26 +39,23 @@ public static class GameEndpoints
     }
 
 
-    public static async Task<IResult> CreateNewGame(NewGameRequest request, ISender sender)
+    public static async Task<IResult> CreateNewGame(CreateGameRequest request, ISender sender)
     {
-        var result = await sender.Send(new CreateNewGameComand(request.OwnerName));
+        var response = await sender.Send(request);
 
-        var response = new CreateNewGameResponse(result.Session);
         return Results.Ok(response);
 
     }
 
     public static async Task<IResult> GetGame(Guid id, ISender sender)
     {
-        var result = await sender.Send(new GetGameCommand(id));
-        var response = new GetGameResponse(result.Session);
+        var response = await sender.Send(new GetGameRequest(id));
         return Results.Ok(response);
     }
 
     public static async Task<IResult> AddPlayer(AddPlayerRequest request, ISender sender)
     {
-        var result = await sender.Send(new AddPlayerCommand(InvitationCode: request.InvitationCode, PlayerName: request.Name));
-        var response = new AddPlayerResponse(result.Session);
+        var response = await sender.Send(request);
 
         return Results.Ok(response);
     }

@@ -1,5 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using FriendZie.Domain;
+﻿using FriendZie.Domain.Player;
+using FriendZie.Domain.Session;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 
@@ -66,18 +66,7 @@ public class CosmosDbGameRepository(CosmosClient client) : IGameRepository
         await container.UpsertItemAsync(
                 item: session,
                 partitionKey: new PartitionKey(session.Id.ToString())
-            );
-
-        var newPlayer = new PlayerType("josh");
-
-        List<PatchOperation> operations = new()
-    {
-      
-        PatchOperation.Add("/players/-", newPlayer)
-    };
-
-        
-        await container.PatchItemAsync<SessionType>(session.Id.ToString(), new PartitionKey(session.Id.ToString()), operations );
+            );      
 
     }
 

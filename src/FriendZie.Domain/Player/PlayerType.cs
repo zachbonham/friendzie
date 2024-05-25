@@ -1,4 +1,4 @@
-﻿namespace FriendZie.Domain;
+﻿namespace FriendZie.Domain.Player;
 
 /*
  * Player will have Name

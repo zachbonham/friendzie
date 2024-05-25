@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 
-namespace FriendZie.Domain;
+namespace FriendZie.Domain.Player;
 
 /*
 
@@ -12,7 +12,7 @@ public class InvalidPlayerNameLengthError(int length) : Error($"Player name leng
 {
 }
 
-public record PlayerErrors 
+public record PlayerErrors
 {
     public static Error InvalidPlayerNameLength(int length) => new InvalidPlayerNameLengthError(length);
 }
